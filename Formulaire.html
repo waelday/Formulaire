@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulaire </title>
+</head>
+<body>
+
+<form id="userInfoForm">
+    <label for="firstName">Prénom:</label><br>
+    <input type="text" id="firstName" name="firstName"><br>
+    <label for="lastName">Nom:</label><br>
+    <input type="text" id="lastName" name="lastName"><br>
+    <label for="age">Âge:</label><br>
+    <input type="number" id="age" name="age"><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email"><br><br>
+    <button type="button" onclick="validateData()">OK</button>
+</form>
+
+<h2>Liste des personnes enregistrées:</h2>
+<table id="peopleTable">
+    <thead>
+        <tr>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Âge</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody id="peopleList"></tbody>
+</table>
+
+<script>
+let peopleData = [];
+
+function isAlpha(str) {
+    for (let i = 0; i < str.length; i++) {
+        let code = str.charCodeAt(i);
+        if (!((code >= 65 && code <= 90) || (code >= 97 && code <= 122))) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function isEmail(str) {
+    let atIndex = str.indexOf('@');
+    let dotIndex = str.lastIndexOf('.');
+    return atIndex > 0 && dotIndex > atIndex;
+}
+
+function validateData() {
+    let firstNameInput = document.getElementById("firstName");
+    let lastNameInput = document.getElementById("lastName");
+    let ageInput = document.getElementById("age");
+    let emailInput = document.getElementById("email");
+
+    let firstName = firstNameInput.value;
+    let lastName = lastNameInput.value;
+    let age = ageInput.value;
+    let email = emailInput.value;
+
+    let userInfoForm = document.getElementById("userInfoForm");
+
+    let isValid = true;
+
+    if (!isAlpha(firstName)) {
+        firstNameInput.style.borderColor = "red";
+        isValid = false;
+    } else {
+        firstNameInput.style.borderColor = "";
+    }
+
+    if (!isAlpha(lastName)) {
+        lastNameInput.style.borderColor = "red";
+        isValid = false;
+    } else {
+        lastNameInput.style.borderColor = "";
+    }
+
+    if (!isEmail(email)) {
+        emailInput.style.borderColor = "red";
+        isValid = false;
+    } else {
+        emailInput.style.borderColor = "";
+    }
+
+    if (!isValid) {
+        return;
+    }
+
+    let person = { firstName: firstName, lastName: lastName, age: age, email: email };
+    peopleData.push(person);
+    displayPeople();
+
+    userInfoForm.reset(); // Réinitialiser le formulaire
+}
+
+function displayPeople() {
+    let peopleList = document.getElementById("peopleList");
+    peopleList.innerHTML = "";
+     // Effacer le contenu précédent
+
+    for (let i = 0; i < peopleData.length; i++) {
+        let person = peopleData[i];
+        let row = document.createElement("tr");
+        let firstNameCell = document.createElement("td");
+        firstNameCell.textContent = person.firstName;
+        row.appendChild(firstNameCell);
+        let lastNameCell = document.createElement("td");
+        lastNameCell.textContent = person.lastName;
+        row.appendChild(lastNameCell);
+        let ageCell = document.createElement("td");
+        ageCell.textContent = person.age;
+        row.appendChild(ageCell);
+        let emailCell = document.createElement("td");
+        emailCell.textContent = person.email;
+        row.appendChild(emailCell);
+        peopleList.appendChild(row);
+    }
+}
+let email = prompt("Saisir une adresse électronique");
+        if (!estEmail(email))
+            console.log("la chaine '" + email + "' n'est pas une adresse électronique");
+        else
+            console.log("la chaine '" + email + "' est une adresse électronique");
+</script>
+
+</body>
+</html>
